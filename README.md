@@ -16,11 +16,49 @@ A GitHub Actions workflow that lets you download files into your repository just
 
 That's it — no tokens or secrets needed.
 
+### Supported Platforms
+
+- **YouTube** (fully tested) — also supports YouTube Music
+- **Bunkr** (fully tested)
+- Other streaming sites may work with yt-dlp
+- **any publickly available downloadable link**
+
 ---
 
-## 🚀 Usage
+## 🔐 YouTube Cookies (Optional, for age-restricted/paid content)
 
-You trigger downloads by editing any file directly on GitHub and using a special commit message when saving.
+If downloading age-restricted or member-only YouTube videos, you'll need to add cookies:
+
+### Step 1: Get cookies.txt
+
+1. Install **"Get cookies.txt LOCALLY"** extension in Chrome
+2. Enable **Allow in incognito**
+3. Open an **Incognito window** → log into YouTube
+4. Visit `https://www.youtube.com/robots.txt`
+5. Right-click extension icon → **"Export"**
+6. Save as `youtube_cookies.txt`
+7. Close incognito, never use it again
+
+### Step 2: Add to GitHub Secrets
+
+1. Go to your repository on GitHub
+2. Click **Settings** → **Secrets and variables** → **Actions**
+3. Click **New repository secret**
+4. Name: `YOUTUBE_COOKIES`
+5. Open your `youtube_cookies.txt` file, copy everything
+6. Paste into the **Secret** field
+7. Click **Add secret**
+
+That's it — the workflow will use these cookies automatically.
+
+### ⚠️ Cookies Expire
+
+YouTube rotates cookies frequently:
+- **Typical lifespan: 3-5 days** (due to YouTube's anti-bot measures)
+- You may need to re-export cookies periodically
+- If downloads start failing, fetch new cookies and update the secret
+
+---
 
 ### How to trigger a download
 
@@ -33,6 +71,18 @@ You trigger downloads by editing any file directly on GitHub and using a special
 7. Click **Commit changes**
 
 The workflow will run automatically and the downloaded files will appear in the `downloads/` folder.
+
+### ⚡ Quick Commands (No Editor Needed)
+
+Trigger downloads without editing any file:
+### Download
+```bash
+git commit --allow-empty -m "download: https://example.com/file.zip" && git push
+```
+### Cancel/Clean (undo last commit)
+```bash
+git reset --hard HEAD~1 && git push --force
+```
 
 ---
 
