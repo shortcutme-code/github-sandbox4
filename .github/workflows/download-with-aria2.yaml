@@ -44,7 +44,6 @@ jobs:
               --split=2 \
               --max-connection-per-server=2 \
               --min-split-size=90M \
-              --out="$FILENAME" \
               --dir="tmp_downloads" \
               "$URL"
           done
